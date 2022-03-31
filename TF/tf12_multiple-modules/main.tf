@@ -218,6 +218,49 @@ resource "aws_s3_bucket" "this" {
 
 }
 
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "this" {
+  bucket = aws_s3_bucket.this.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "AES256"
+    }
+  }
+}
+
+
+
+resource "aws_s3_bucket_versioning" "this" {
+  bucket = aws_s3_bucket.this.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "aws:kms"
+      }
+    }
+  }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "aws:kms"
+      }
+    }
+  }
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "aws:kms"
+      }
+    }
+  }
+
+
 resource "aws_s3_bucket_policy" "this" {
   count = var.create_bucket && (var.attach_elb_log_delivery_policy || var.attach_policy) ? 1 : 0
 

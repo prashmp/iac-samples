@@ -9,6 +9,7 @@ resource "random_pet" "this" {
 resource "aws_kms_key" "objects" {
   description             = "KMS key is used to encrypt bucket objects"
   deletion_window_in_days = 7
+  enable_key_rotation = true
 }
 
 resource "aws_iam_role" "this" {

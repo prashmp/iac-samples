@@ -66,6 +66,8 @@ resource "aws_instance" "rvt" {
     network_interface_id = aws_network_interface.rvt.id
     device_index = 0
   }
+  ebs_optimized = true
+  monitoring = true
 }
 
 output "instance_private_dns" {
