@@ -57,6 +57,9 @@
               "MaxAge": "1800"
             }
           ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicPolicy": true
         }
       }
     },
