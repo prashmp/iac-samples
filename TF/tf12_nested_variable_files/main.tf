@@ -22,6 +22,30 @@ resource "aws_s3_bucket" "publics3" {
   }
 }
 
+
+resource "aws_s3_bucket" "publics3_log_bucket" {
+  bucket = "publics3-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "publics3" {
+  bucket = aws_s3_bucket.publics3.id
+
+  target_bucket = aws_s3_bucket.publics3_log_bucket.id
+  target_prefix = "log/"
+}
+
+
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "publics3" {
+  bucket = aws_s3_bucket.publics3.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
 resource "aws_security_group" "allow_tcp" {
   name = "allow_tcp"
   description = "Allow TCP inbound traffic"
@@ -55,6 +79,8 @@ resource "aws_instance" "ubuntu" {
   tags = {
     Name = format("terraform-0.12-for-demo-%d", count.index)
   }
+  ebs_optimized = true
+  monitoring = true
 }
 
 # This uses the old splat expression

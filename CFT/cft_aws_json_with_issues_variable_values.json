@@ -59,7 +59,10 @@
           ]
         },
         "PublicAccessBlockConfiguration": {
-          "BlockPublicPolicy": true
+          "BlockPublicPolicy": true,
+          "RestrictPublicBuckets": true,
+          "IgnorePublicAcls": true,
+          "BlockPublicAcls": true
         }
       }
     },

@@ -57,6 +57,12 @@
               "MaxAge": "1800"
             }
           ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicPolicy": true,
+          "BlockPublicAcls": true,
+          "RestrictPublicBuckets": true,
+          "IgnorePublicAcls": true
         }
       }
     },

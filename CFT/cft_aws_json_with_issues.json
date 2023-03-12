@@ -5,7 +5,6 @@
     "S3Bucket": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
-        "AccessControl": "PublicRead",
         "CorsConfiguration": {
           "CorsRules": [
             {
@@ -44,6 +43,12 @@
               "MaxAge": "1800"
             }
           ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicPolicy": true,
+          "BlockPublicAcls": true,
+          "RestrictPublicBuckets": true,
+          "IgnorePublicAcls": true
         }
       }
     },

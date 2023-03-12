@@ -10,10 +10,33 @@ resource "aws_s3_bucket" "log_bucket" {
   bucket = "my-tf-log-bucket"
   acl = "log-delivery-write"
 }
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "log_bucket" {
+  bucket = aws_s3_bucket.log_bucket.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
+
+resource "aws_s3_bucket" "log_bucket_log_bucket" {
+  bucket = "log_bucket-log-bucket"
+}
+
+resource "aws_s3_bucket_logging" "log_bucket" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  target_bucket = aws_s3_bucket.log_bucket_log_bucket.id
+  target_prefix = "log/"
+}
+
 resource "aws_s3_bucket" "foo" {
   // 23. AWS S3 buckets are accessible to public (high)
   // $.resource[*].aws_s3_bucket exists and ($.resource[*].aws_s3_bucket.*[*].*.acl anyEqual public-read-write or $.resource[*].aws_s3_bucket.*[*].*.acl anyEqual public-read)
-  acl = "public-read-write"
+  acl = "private"
 
   bucket = "foo_name"
   // 24. AWS S3 Object Versioning is disabled (medium)
@@ -31,6 +54,17 @@ resource "aws_s3_bucket" "foo" {
   }
 }
 
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "foo" {
+  bucket = aws_s3_bucket.foo.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+    }
+  }
+}
+
 resource "aws_cloudtrail" "foo_cloudtrail" {
   // 2. AWS CloudTrail bucket is publicly accessible (high)
   // $.resource[*].aws_cloudtrail exists and $.resource[*].aws_cloudtrail[*].*[*].s3_bucket_name equals $.resource[*].aws_s3_bucket_public_access_block[*].*[*].bucket and  ($.resource[*].aws_s3_bucket_public_access_block[*].*[*].block_public_acls isFalse or  $.resource[*].aws_s3_bucket_public_access_block[*].*[*].block_public_policy isFalse)
@@ -41,13 +75,17 @@ resource "aws_cloudtrail" "foo_cloudtrail" {
   // #REMOVED TO MAKE RULE MATCH# kms_key_id = "arn:aws:kms:us-west-2:111122223333:key"
   s3_key_prefix = "prefix"
   include_global_service_events = false
-  enable_logging = false
+  enable_logging = true
+  enable_log_file_validation = true
+  is_multi_region_trail = true
 }
 resource "aws_s3_bucket_public_access_block" "example" {
   // 2+. AWS CloudTrail bucket is publicly accessible (high)
   bucket = aws_s3_bucket.foo.id
-  block_public_acls = false
+  block_public_acls = true
   block_public_policy = true
+  restrict_public_buckets = true
+  ignore_public_acls = true
 }
 
 // ??? [Rule Not Matching] 30. AWS VPC allows unauthorized peering
@@ -200,7 +238,11 @@ resource "aws_db_instance" "default" {
   parameter_group_name = "default.mysql5.7"
   // 20. AWS RDS snapshots are accessible to public (high)
   // $.resource[*].aws_db_instance exists and ($.resource[*].aws_db_instance[*].*[*].publicly_accessible !exists  or $.resource[*].aws_db_instance[*].*[*].publicly_accessible anyTrue)
-  publicly_accessible = true
+  multi_az = true
+  iam_database_authentication_enabled = true
+  monitoring_interval = true
+  storage_encrypted = true
+  auto_minor_version_upgrade = true
 }
 // 19. AWS RDS event subscription disabled for DB security groups (medium)
 // $.resource[*].aws_db_instance exists and ( $.resource[*].aws_db_event_subscription !exists or $.resource[*].aws_db_event_subscription[*].*[?(@.source_type=='db-security-group')] anyNull  or not $.resource[*].aws_db_event_subscription[*].*[?(@.source_type=='db-security-group')].enabled anyNull or $.resource[*].aws_db_event_subscription[*].*[?(@.source_type=='db-security-group')].enabled anyTrue )
@@ -232,7 +274,7 @@ resource "aws_db_event_subscription" "default" {
 // $.resource[*].aws_kms_key exists and ( $.resource[*].aws_kms_key[*].*[*].enable_key_rotation anyFalse or  $.resource[*].aws_kms_key[*].*[*].enable_key_rotation anyNull)
 resource "aws_kms_key" "a" {
   description = "KMS key 1"
-  enable_key_rotation = false
+  enable_key_rotation = true
 }
 
 // 5. AWS Default Security Group does not restrict all traffic (high)
@@ -330,6 +372,15 @@ resource "aws_elasticsearch_domain" "example" {
   snapshot_options {
     automated_snapshot_start_hour = 23
   }
+  domain_endpoint_options {
+    tls_security_policy = "Policy-Min-TLS-1-2-2019-07"
+  }
+  encrypt_at_rest {
+    enabled = true
+  }
+  log_publishing_options {
+    cloudwatch_log_group_arn = "CKV_ANY"
+  }
 }
 
 resource "aws_iam_account_password_policy" "strict" {
@@ -338,22 +389,12 @@ resource "aws_iam_account_password_policy" "strict" {
   password_reuse_prevention = 0
   // 11. AWS IAM password policy does not expire in 90 days (medium)
   // $.resource[*].aws_iam_account_password_policy[*].*[?( @.max_password_age>90 )] is not empty
-  max_password_age = 91
-  // 12. AWS IAM password policy does not have a minimum of 14 characters (medium)
-  // $.resource[*].aws_iam_account_password_policy[*].*[?( @.minimum_password_length<14 )] is not empty
-  minimum_password_length = 8
-  // 13. AWS IAM password policy does not have a lowercase character (medium)
-  // $.resource[*].aws_iam_account_password_policy[*].*[*]
-  require_lowercase_characters = false
-  // 14. AWS IAM password policy does not have a number (medium)
-  // $.resource[*].aws_iam_account_password_policy[*].*[*].require_numbers anyFalse
-  require_numbers = false
-  // 15. AWS IAM password policy does not have a symbol (medium)
-  //$.resource[*].aws_iam_account_password_policy[*].*[*].require_symbols anyFalse
-  require_symbols = false
-  // 16. AWS IAM password policy does not have a uppercase character (medium)
-  // $.resource[*].aws_iam_account_password_policy[*].*[*].require_uppercase_characters anyFalse
-  require_uppercase_characters = false
+  max_password_age = 90
+  minimum_password_length = 14
+  require_lowercase_characters = true
+  require_numbers = true
+  require_symbols = true
+  require_uppercase_characters = true
   allow_users_to_change_password = true
 }
 
@@ -376,6 +417,7 @@ resource "aws_eks_cluster" "example" {
   name = "example"
   role_arn = data.aws_iam_role.ecs_task_execution_role.arn
   vpc_config {
+    endpoint_public_access = false
     subnet_ids = [
       data.aws_subnet_ids.example.id]
   }
