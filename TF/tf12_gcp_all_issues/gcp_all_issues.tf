@@ -105,6 +105,9 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   node_count = 1
 
   node_config {
+    shielded_instance_config {
+      enable_secure_boot = true
+    }
     preemptible = true
     machine_type = "e2-medium"
     //GCP Kubernetes Engine Clusters not using Container-Optimized OS for Node image
@@ -165,16 +168,10 @@ resource "google_storage_bucket" "bucket" {
 //$.resource[*].google_sql_database_instance[*].*[*].settings[*].ip_configuration[*].authorized_networks[*].value anyEqual 0.0.0.0/0 or $.resource[*].google_sql_database_instance[*].*[*].settings[*].ip_configuration[*].authorized_networks[*].value anyEqual ::/0
 resource "google_sql_database_instance" "master" {
   name = "master-instance"
-  database_version = true
+  database_version = "POSTGRES_11"
   region = "us-central1"
 
   settings {
-    backup_configuration {
-      enabled = true
-    }
-    ip_configuration {
-      require_ssl = true
-    }
     # Second-generation instance tiers are based on the machine
     # type. See argument reference below.
     tier = "db-f1-micro"
