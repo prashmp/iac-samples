@@ -200,7 +200,6 @@ resource "aws_db_instance" "default" {
   parameter_group_name = "default.mysql5.7"
   // 20. AWS RDS snapshots are accessible to public (high)
   // $.resource[*].aws_db_instance exists and ($.resource[*].aws_db_instance[*].*[*].publicly_accessible !exists  or $.resource[*].aws_db_instance[*].*[*].publicly_accessible anyTrue)
-  publicly_accessible = true
 }
 // 19. AWS RDS event subscription disabled for DB security groups (medium)
 // $.resource[*].aws_db_instance exists and ( $.resource[*].aws_db_event_subscription !exists or $.resource[*].aws_db_event_subscription[*].*[?(@.source_type=='db-security-group')] anyNull  or not $.resource[*].aws_db_event_subscription[*].*[?(@.source_type=='db-security-group')].enabled anyNull or $.resource[*].aws_db_event_subscription[*].*[?(@.source_type=='db-security-group')].enabled anyTrue )
