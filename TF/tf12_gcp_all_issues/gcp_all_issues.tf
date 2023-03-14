@@ -105,6 +105,9 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
   node_count = 1
 
   node_config {
+    shielded_instance_config {
+      enable_secure_boot = true
+    }
     preemptible = true
     machine_type = "e2-medium"
     //GCP Kubernetes Engine Clusters not using Container-Optimized OS for Node image
@@ -293,7 +296,6 @@ resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" 
     range_name = "tf-test-secondary-range-update1"
     ip_cidr_range = "192.168.10.0/24"
   }
-  private_ipv6_google_access = true
 }
 resource "google_compute_network" "custom-test" {
   name = "test-network"
