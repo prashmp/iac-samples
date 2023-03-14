@@ -165,10 +165,16 @@ resource "google_storage_bucket" "bucket" {
 //$.resource[*].google_sql_database_instance[*].*[*].settings[*].ip_configuration[*].authorized_networks[*].value anyEqual 0.0.0.0/0 or $.resource[*].google_sql_database_instance[*].*[*].settings[*].ip_configuration[*].authorized_networks[*].value anyEqual ::/0
 resource "google_sql_database_instance" "master" {
   name = "master-instance"
-  database_version = "POSTGRES_11"
+  database_version = true
   region = "us-central1"
 
   settings {
+    backup_configuration {
+      enabled = true
+    }
+    ip_configuration {
+      require_ssl = true
+    }
     # Second-generation instance tiers are based on the machine
     # type. See argument reference below.
     tier = "db-f1-micro"
