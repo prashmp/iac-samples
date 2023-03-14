@@ -5,9 +5,6 @@ resource "google_container_cluster" "primary" {
   initial_node_count = 1
   // GCP Kubernetes Engine Clusters have Legacy Authorization enabled
   // $.resource[*].google_container_cluster.*.*[*].enable_legacy_abac anyTrue
-  enable_legacy_abac = true
-
-  //??? GCP Kubernetes Engine Clusters have Master authorized networks disabled
   //$.resource[*].google_container_cluster[*].*.*.master_authorized_networks_config anyNull
   master_authorized_networks_config {
   }
@@ -61,6 +58,9 @@ resource "google_container_cluster" "primary" {
   //  }
 
   node_config {
+    shielded_instance_config {
+      enable_secure_boot = true
+    }
     // GCP Kubernetes Engine Cluster Nodes have default Service account for Project access
     // $.resource[*].google_container_cluster[*].*[*].node_config anyNull or $.resource[*].google_container_cluster[*].*[*].node_config[*].service_account anyNull
     //    service_account = "default"
@@ -92,9 +92,13 @@ resource "google_container_cluster" "primary" {
     //GCP Kubernetes Engine Clusters Client Certificate is set to Disabled
     //$.resource[*].google_container_cluster[*].*.*.master_auth[*].client_certificate_config[*].issue_client_certificate anyTrue
     client_certificate_config {
-      issue_client_certificate = true
+      issue_client_certificate = false
     }
   }
+  pod_security_policy_config {
+  }
+  min_master_version = "1.12"
+  enable_intranode_visibility = true
 }
 
 
