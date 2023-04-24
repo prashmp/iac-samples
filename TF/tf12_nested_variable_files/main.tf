@@ -9,51 +9,60 @@ provider "aws" {
 resource "aws_vpc" "my_vpc" {
   cidr_block = "172.16.0.0/16"
   tags = {
-    Name = "tf-0.12-for-example"
+    Name      = "tf-0.12-for-example"
+    yor_trace = "89062d31-685e-4864-80cb-2310af454567"
   }
 }
 
 resource "aws_s3_bucket" "publics3" {
   // AWS S3 buckets are accessible to public
-  acl = var.acl_file
+  acl    = var.acl_file
   bucket = "publics3"
   versioning {
     enabled = true
   }
+  tags = {
+    yor_trace = "60b182c8-791f-489b-91e9-a856242e0024"
+  }
 }
 
 resource "aws_security_group" "allow_tcp" {
-  name = "allow_tcp"
+  name        = "allow_tcp"
   description = "Allow TCP inbound traffic"
-  vpc_id = aws_vpc.my_vpc.id
+  vpc_id      = aws_vpc.my_vpc.id
   ingress {
     description = "TCP from VPC"
     // AWS Security Groups allow internet traffic to SSH port (22)
     from_port = 99
-    to_port = 99
-    protocol = "tcp"
+    to_port   = 99
+    protocol  = "tcp"
     cidr_blocks = [
-      var.cidr_file]
+    var.cidr_file]
+  }
+  tags = {
+    yor_trace = "d75cf66e-5284-48ac-b8e9-0c4395359fa5"
   }
 }
 
 resource "aws_subnet" "my_subnet" {
-  vpc_id = aws_vpc.my_vpc.id
-  cidr_block = "172.16.10.0/24"
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "172.16.10.0/24"
   availability_zone = "us-east-1a"
   tags = {
-    Name = "tf-0.12-for-example"
+    Name      = "tf-0.12-for-example"
+    yor_trace = "ee3692d5-7435-40b5-b964-c356fe8e2751"
   }
 }
 
 resource "aws_instance" "ubuntu" {
-  count = 3
-  ami = "ami-2e1ef954"
-  instance_type = "t2.micro"
-  associate_public_ip_address = ( count.index == 1 ? true : false)
-  subnet_id = aws_subnet.my_subnet.id
+  count                       = 3
+  ami                         = "ami-2e1ef954"
+  instance_type               = "t2.micro"
+  associate_public_ip_address = (count.index == 1 ? true : false)
+  subnet_id                   = aws_subnet.my_subnet.id
   tags = {
-    Name = format("terraform-0.12-for-demo-%d", count.index)
+    Name      = format("terraform-0.12-for-demo-%d", count.index)
+    yor_trace = "e6de6085-d13f-4302-8880-7ad0122fef47"
   }
 }
 
@@ -71,8 +80,8 @@ output "private_addresses_old" {
 # This uses the new for expression
 output "private_addresses_new" {
   value = [
-  for instance in aws_instance.ubuntu:
-  instance.private_dns
+    for instance in aws_instance.ubuntu :
+    instance.private_dns
   ]
 }
 
@@ -81,7 +90,7 @@ output "private_addresses_new" {
 # It should work with lists in [x, y, z] form, but does not yet do that
 output "ips" {
   value = [
-  for instance in aws_instance.ubuntu:
-  (instance.public_ip != "" ? list(instance.private_ip, instance.public_ip) : list(instance.private_ip))
+    for instance in aws_instance.ubuntu :
+    (instance.public_ip != "" ? list(instance.private_ip, instance.public_ip) : list(instance.private_ip))
   ]
 }
