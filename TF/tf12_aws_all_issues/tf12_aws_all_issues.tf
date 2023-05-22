@@ -18,9 +18,18 @@ resource "aws_s3_bucket" "log_bucket" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "log_bucket"
-    yor_trace            = "681e256a-86f1-418a-af8d-b8640e4d1cda"
+    yor_trace            = "e630fae1-ca02-4a87-ab6d-e5efe6b47a30"
   }
 }
+
+resource "aws_s3_bucket_versioning" "log_bucket" {
+  bucket = aws_s3_bucket.log_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket" "foo" {
   // 23. AWS S3 buckets are accessible to public (high)
   // $.resource[*].aws_s3_bucket exists and ($.resource[*].aws_s3_bucket.*[*].*.acl anyEqual public-read-write or $.resource[*].aws_s3_bucket.*[*].*.acl anyEqual public-read)
@@ -49,7 +58,7 @@ resource "aws_s3_bucket" "foo" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "foo"
-    yor_trace            = "bd446d90-df97-40a3-b5d2-8d479ade2be9"
+    yor_trace            = "6b1a8884-7fe1-432e-91b5-c27949cd01fe"
   }
 }
 
@@ -73,7 +82,7 @@ resource "aws_cloudtrail" "foo_cloudtrail" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "foo_cloudtrail"
-    yor_trace            = "ad973fe6-d210-4719-a2a0-0dc0a4536471"
+    yor_trace            = "fc70e527-1152-425b-a1e1-f1b32626db97"
   }
 }
 resource "aws_s3_bucket_public_access_block" "example" {
@@ -98,7 +107,7 @@ resource "aws_vpc_peering_connection" "foo" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "foo"
-    yor_trace            = "e03f9645-157f-4bef-8197-9008d50166d9"
+    yor_trace            = "33d8b420-43ff-4d99-ac10-52a805ce7232"
   }
 }
 resource "aws_vpc" "foo_vpc" {
@@ -113,7 +122,7 @@ resource "aws_vpc" "foo_vpc" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "foo_vpc"
-    yor_trace            = "22cf9156-3e2b-4e90-b21e-cf1094606a94"
+    yor_trace            = "5438176a-efca-4440-80d0-331e5e11ca00"
   }
 }
 resource "aws_vpc" "bar_vpc" {
@@ -128,7 +137,7 @@ resource "aws_vpc" "bar_vpc" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "bar_vpc"
-    yor_trace            = "a2498d63-832c-4c64-b31d-0ca97dd1f302"
+    yor_trace            = "581938f1-7b3f-4efa-9aa8-e9e76073b7cf"
   }
 }
 
@@ -164,7 +173,7 @@ resource "aws_security_group" "allow_tcp" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "allow_tcp"
-    yor_trace            = "e661a009-1a9e-425e-ab14-98a3814f040a"
+    yor_trace            = "c6963b69-33af-40aa-9b9b-930198b3f109"
   }
 }
 // 25. AWS Security Groups allow internet traffic from internet to RDP port (3389)
@@ -197,7 +206,7 @@ resource "aws_security_group" "allow_rdp" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "allow_rdp"
-    yor_trace            = "636cbe57-02a8-48e6-b109-0724d254754e"
+    yor_trace            = "97f48fea-f518-484c-9082-4d52946f52d6"
   }
 }
 // 27. AWS Security Groups with Inbound rule overly permissive to All Traffic
@@ -230,7 +239,7 @@ resource "aws_security_group" "allow_all_traffic" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "allow_all_traffic"
-    yor_trace            = "ba8b2752-1a1a-42f7-85af-3c39bf1ba29f"
+    yor_trace            = "2623de1d-665e-4710-8df5-0a97551a3a58"
   }
 }
 // ??? [Not Matching, Dupe of 6?] 32. AWS security groups allow ingress traffic from blocked ports
@@ -256,7 +265,7 @@ resource "aws_security_group" "allow_udp69" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "allow_udp69"
-    yor_trace            = "e744bcbd-e5d2-4126-b915-6a836ca84e83"
+    yor_trace            = "74151e89-6393-4707-8a2d-44d77fe2855a"
   }
 }
 
@@ -291,7 +300,7 @@ resource "aws_network_acl" "main" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "main"
-    yor_trace            = "cd07c61b-ac37-452a-9922-1f50fcd3020f"
+    yor_trace            = "ab4d97ad-8a65-4e2f-b5b8-eb753d7641d4"
   }
 }
 // 21. AWS Redshift does not have require_ssl configured
@@ -312,7 +321,7 @@ resource "aws_redshift_parameter_group" "bar" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "bar"
-    yor_trace            = "8bf69a91-383d-47ed-bd36-5c789d9c3fd4"
+    yor_trace            = "063d609b-aa6b-4e56-8ac8-b0af8f2c4e3e"
   }
 }
 
@@ -339,7 +348,7 @@ resource "aws_db_instance" "default" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "default"
-    yor_trace            = "89451b8a-d86b-4452-b084-4b6afce62efc"
+    yor_trace            = "9a9ef9dc-b339-4a8a-96a7-86756c491c8c"
   }
 }
 // 19. AWS RDS event subscription disabled for DB security groups (medium)
@@ -355,7 +364,7 @@ resource "aws_sns_topic" "default" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "default"
-    yor_trace            = "48f3aaeb-b646-4700-a237-845b8c4b9093"
+    yor_trace            = "e9a4b7f5-f882-4dd6-9e56-7fc1d75eee44"
   }
 }
 resource "aws_db_event_subscription" "default" {
@@ -386,7 +395,7 @@ resource "aws_db_event_subscription" "default" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "default"
-    yor_trace            = "d432b9fd-aa54-440b-ac7f-53e2510071d2"
+    yor_trace            = "864db9b2-9f7d-458e-ae2f-d5db1b869395"
   }
 }
 
@@ -404,7 +413,7 @@ resource "aws_kms_key" "a" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "a"
-    yor_trace            = "dcfc3e9e-3618-4176-af62-b8641a7c40aa"
+    yor_trace            = "4a927539-db58-4639-be00-e1f709bee22f"
   }
 }
 
@@ -421,7 +430,7 @@ resource "aws_vpc" "mainvpc" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "mainvpc"
-    yor_trace            = "6274fd20-929b-4229-b487-d7a31c1cb060"
+    yor_trace            = "989eebeb-13d5-4736-8720-16f52f56a2d0"
   }
 }
 resource "aws_default_security_group" "default" {
@@ -444,7 +453,7 @@ resource "aws_default_security_group" "default" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "default"
-    yor_trace            = "feb64a22-5eb2-4cc8-9d53-bb3b37a2337e"
+    yor_trace            = "13a18e0b-b0af-4454-b92e-242721faf9ca"
   }
 }
 
@@ -486,7 +495,7 @@ resource "aws_ecs_task_definition" "github-backup" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "github-backup"
-    yor_trace            = "c5e4ab45-24f3-435d-ad00-8ed218dd3cd3"
+    yor_trace            = "c49226be-8b88-4344-8a64-facbc4c20704"
   }
 }
 resource "aws_ecs_task_definition" "github-backup2" {
@@ -523,7 +532,7 @@ resource "aws_ecs_task_definition" "github-backup2" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "github-backup2"
-    yor_trace            = "7d89e3b2-4377-4480-8e20-57da783685af"
+    yor_trace            = "5bb65665-30db-4e87-b429-57273b461ff1"
   }
 }
 
@@ -556,7 +565,7 @@ resource "aws_elasticsearch_domain" "example" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "example"
-    yor_trace            = "4f1b9c0d-0412-42e2-8414-7f950a038253"
+    yor_trace            = "a029806e-aade-47d3-9135-367d453a7442"
   }
 }
 
@@ -617,6 +626,6 @@ resource "aws_eks_cluster" "example" {
     git_org              = "prashmp"
     git_repo             = "iac-samples"
     yor_name             = "example"
-    yor_trace            = "539b6b03-4873-4e4a-81ae-1614552322fe"
+    yor_trace            = "aa6e0980-65bf-49f6-b1f2-8e881523260f"
   }
 }
