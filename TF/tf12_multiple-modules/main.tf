@@ -1,10 +1,20 @@
 resource "aws_s3_bucket" "this" {
   count = var.create_bucket ? 1 : 0
 
-  bucket              = var.bucket
-  bucket_prefix       = var.bucket_prefix
-  acl                 = var.acl
-  tags                = var.tags
+  bucket        = var.bucket
+  bucket_prefix = var.bucket_prefix
+  acl           = var.acl
+  tags = merge(var.tags, {
+    git_commit           = "aa075746561a263ca5d4f198d51055c97052e170"
+    git_file             = "TF/tf12_multiple-modules/main.tf"
+    git_last_modified_at = "2020-12-02 05:40:26"
+    git_last_modified_by = "ginguyen@paloaltonetworks.com"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "this"
+    yor_trace            = "a251c63e-ee33-4c92-89cb-731d7fcb376e"
+  })
   force_destroy       = var.force_destroy
   acceleration_status = var.acceleration_status
   region              = var.region
@@ -25,7 +35,7 @@ resource "aws_s3_bucket" "this" {
     for_each = length(keys(var.cors_rule)) == 0 ? [] : [var.cors_rule]
 
     content {
-//      allowed_methods = cors_rule.value.allowed_methodsp
+      //      allowed_methods = cors_rule.value.allowed_methodsp
       allowed_methods = cors_rule.value.allowed_methods
       allowed_origins = cors_rule.value.allowed_origins
       allowed_headers = lookup(cors_rule.value, "allowed_headers", null)

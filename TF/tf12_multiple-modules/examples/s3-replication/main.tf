@@ -26,6 +26,17 @@ resource "aws_kms_key" "replica" {
 
   description             = "S3 bucket replication KMS key"
   deletion_window_in_days = 7
+  tags = {
+    git_commit           = "aa075746561a263ca5d4f198d51055c97052e170"
+    git_file             = "TF/tf12_multiple-modules/examples/s3-replication/main.tf"
+    git_last_modified_at = "2020-12-02 05:40:26"
+    git_last_modified_by = "ginguyen@paloaltonetworks.com"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "replica"
+    yor_trace            = "a66ea938-297e-4315-b3f2-31acbe53f170"
+  }
 }
 
 module "replica_bucket" {

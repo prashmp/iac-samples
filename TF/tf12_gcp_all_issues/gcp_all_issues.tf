@@ -1,7 +1,7 @@
 resource "google_container_cluster" "primary" {
-  provider = google
-  name = "my-gke-cluster"
-  location = "us-central1"
+  provider           = google
+  name               = "my-gke-cluster"
+  location           = "us-central1"
   initial_node_count = 1
   // GCP Kubernetes Engine Clusters have Legacy Authorization enabled
   // $.resource[*].google_container_cluster.*.*[*].enable_legacy_abac anyTrue
@@ -15,11 +15,11 @@ resource "google_container_cluster" "primary" {
   //$.resource[*].google_container_cluster exists and  ($.resource[*].google_container_cluster.*[*].*.private_cluster_config anyNull or $.resource[*].google_container_cluster.*[*].*.private_cluster_config[*].enable_private_nodes anyNull or $.resource[*].google_container_cluster.*[*].*.private_cluster_config[*].enable_private_nodes anyFalse)
   private_cluster_config {
     enable_private_endpoint = false
-    enable_private_nodes = false
+    enable_private_nodes    = false
   }
 
   network_policy {
-    enabled = true
+    enabled  = true
     provider = "CALICO"
   }
   // GCP Kubernetes Engine Clusters have Network policy disableds
@@ -49,7 +49,7 @@ resource "google_container_cluster" "primary" {
   //GCP Kubernetes cluster Application-layer Secrets not encrypteds
   //$.resource[*].google_container_cluster exists and ($.resource[*].google_container_cluster[*].*[*].database_encryption anyNull or  $.resource[*].google_container_cluster[*].*[*].database_encryption[*].state any equal DECRYPTED)
   database_encryption {
-    state = "DECRYPTED"
+    state    = "DECRYPTED"
     key_name = "key"
   }
 
@@ -64,7 +64,7 @@ resource "google_container_cluster" "primary" {
     // GCP Kubernetes Engine Cluster Nodes have default Service account for Project access
     // $.resource[*].google_container_cluster[*].*[*].node_config anyNull or $.resource[*].google_container_cluster[*].*[*].node_config[*].service_account anyNull
     //    service_account = "default"
-    preemptible = true
+    preemptible  = true
     machine_type = "e2-medium"
 
     metadata = {
@@ -99,13 +99,13 @@ resource "google_container_cluster" "primary" {
 
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
-  name = "my-node-pool"
-  location = "us-central1"
-  cluster = google_container_cluster.primary.name
+  name       = "my-node-pool"
+  location   = "us-central1"
+  cluster    = google_container_cluster.primary.name
   node_count = 1
 
   node_config {
-    preemptible = true
+    preemptible  = true
     machine_type = "e2-medium"
     //GCP Kubernetes Engine Clusters not using Container-Optimized OS for Node image
     //$.resource[*].google_container_node_pool exists and  ($.resource[*].google_container_node_pool.*[*].*.node_config anyNull or $.resource[*].google_container_node_pool.*[*].*.node_config[*].image_type anyNull or  not $.resource[*].google_container_node_pool.*[*].*.node_config[*].image_type allStartWith  cos )
@@ -119,8 +119,8 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 }
 
 resource "google_storage_bucket" "static-site" {
-  name = "image-store.com"
-  location = "EU"
+  name          = "image-store.com"
+  location      = "EU"
   force_destroy = true
 
   uniform_bucket_level_access = true
@@ -134,24 +134,46 @@ resource "google_storage_bucket" "static-site" {
   //  logging {
   //    log_bucket = ""
   //  }
+  labels = {
+    git_commit           = "915311b51374d6d1f178237a0ce400fc3baa3967"
+    git_file             = "TF__tf12_gcp_all_issues__gcp_all_issues_tf"
+    git_last_modified_at = "2021-02-04-04-35-04"
+    git_last_modified_by = "ginguyen"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "static-site"
+    yor_trace            = "81dafef5-882f-4c38-9f42-2b2be29a50e5"
+  }
 }
 
 //GCP Storage buckets are publicly accessible to all authenticated users
 //$.resource[*].google_storage_bucket_access_control[*].*[*].entity contains allUsers
 resource "google_storage_bucket_access_control" "public_rule" {
   bucket = google_storage_bucket.static-site.name
-  role = "READER"
+  role   = "READER"
   entity = "allUsers"
 }
 
 resource "google_storage_bucket_access_control" "public_rule2" {
   bucket = google_storage_bucket.bucket.name
-  role = "READER"
+  role   = "READER"
   entity = "allUsers"
 }
 
 resource "google_storage_bucket" "bucket" {
   name = "static-content-bucket"
+  labels = {
+    git_commit           = "915311b51374d6d1f178237a0ce400fc3baa3967"
+    git_file             = "TF__tf12_gcp_all_issues__gcp_all_issues_tf"
+    git_last_modified_at = "2021-02-04-04-35-04"
+    git_last_modified_by = "ginguyen"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "bucket"
+    yor_trace            = "a2e12179-c5b4-481c-958b-761757fc4e94"
+  }
 }
 
 //SQL Instances do not have SSL configured
@@ -164,9 +186,9 @@ resource "google_storage_bucket" "bucket" {
 //SQL Instances with network authorization exposing them to the Internet
 //$.resource[*].google_sql_database_instance[*].*[*].settings[*].ip_configuration[*].authorized_networks[*].value anyEqual 0.0.0.0/0 or $.resource[*].google_sql_database_instance[*].*[*].settings[*].ip_configuration[*].authorized_networks[*].value anyEqual ::/0
 resource "google_sql_database_instance" "master" {
-  name = "master-instance"
+  name             = "master-instance"
   database_version = "POSTGRES_11"
-  region = "us-central1"
+  region           = "us-central1"
 
   settings {
     # Second-generation instance tiers are based on the machine
@@ -175,8 +197,8 @@ resource "google_sql_database_instance" "master" {
   }
 }
 resource "google_compute_instance" "apps" {
-  count = 8
-  name = "apps-${count.index + 1}"
+  count        = 8
+  name         = "apps-${count.index + 1}"
   machine_type = "f1-micro"
 
   boot_disk {
@@ -192,6 +214,17 @@ resource "google_compute_instance" "apps" {
       // Ephemeral IP
     }
   }
+  labels = {
+    git_commit           = "915311b51374d6d1f178237a0ce400fc3baa3967"
+    git_file             = "TF__tf12_gcp_all_issues__gcp_all_issues_tf"
+    git_last_modified_at = "2021-02-04-04-35-04"
+    git_last_modified_by = "ginguyen"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "apps"
+    yor_trace            = "e9178f0e-003b-4be0-b5de-250349e99778"
+  }
 }
 
 resource "random_id" "db_name_suffix" {
@@ -201,11 +234,11 @@ resource "random_id" "db_name_suffix" {
 locals {
   onprem = [
     "0.0.0.0/0",
-    "::/0"]
+  "::/0"]
 }
 
 resource "google_sql_database_instance" "postgres" {
-  name = "postgres-instance-${random_id.db_name_suffix.hex}"
+  name             = "postgres-instance-${random_id.db_name_suffix.hex}"
   database_version = "POSTGRES_11"
 
   settings {
@@ -219,7 +252,7 @@ resource "google_sql_database_instance" "postgres" {
         iterator = apps
 
         content {
-          name = apps.value.name
+          name  = apps.value.name
           value = apps.value.network_interface.0.access_config.0.nat_ip
         }
       }
@@ -229,7 +262,7 @@ resource "google_sql_database_instance" "postgres" {
         iterator = onprem
 
         content {
-          name = "onprem-${onprem.key}"
+          name  = "onprem-${onprem.key}"
           value = onprem.value
         }
       }
@@ -241,18 +274,27 @@ resource "google_sql_database_instance" "postgres" {
 //$.resource[*].google_service_account_key[*].*[*].service_account_id contains google_service_account or $.resource[*].google_service_account_key[*].*[*].service_account_id any end with iam.gserviceaccount.com
 resource "google_service_account_key" "mykey" {
   service_account_id = "iam.gserviceaccount.com"
-  public_key_type = "TYPE_X509_PEM_FILE"
+  public_key_type    = "TYPE_X509_PEM_FILE"
 }
 
 //GCP VM disks not encrypted with Customer-Supplied Encryption Keys (CSEK)
 //$.resource[*].google_compute_disk exists and $.resource[*].google_compute_disk.*.[*].*.disk_encrypt_key does not exist
 resource "google_compute_disk" "default" {
-  name = "test-disk"
-  type = "pd-ssd"
-  zone = "us-central1-a"
+  name  = "test-disk"
+  type  = "pd-ssd"
+  zone  = "us-central1-a"
   image = "debian-8-jessie-v20170523"
   labels = {
-    environment = "dev"
+    environment          = "dev"
+    git_commit           = "915311b51374d6d1f178237a0ce400fc3baa3967"
+    git_file             = "TF__tf12_gcp_all_issues__gcp_all_issues_tf"
+    git_last_modified_at = "2021-02-04-04-35-04"
+    git_last_modified_by = "ginguyen"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "default"
+    yor_trace            = "e1955671-182b-48b9-bbae-bcafd10397e3"
   }
   physical_block_size_bytes = 4096
 }
@@ -260,9 +302,9 @@ resource "google_compute_disk" "default" {
 //GCP VM instances have IP forwarding enabled
 //$.resource[*].google_compute_instance_template[*].*.[*].can_ip_forward anyTrue
 resource "google_compute_instance_template" "instance_template" {
-  name_prefix = "instance-template-"
+  name_prefix  = "instance-template-"
   machine_type = "n1-standard-1"
-  region = "us-central1"
+  region       = "us-central1"
 
   can_ip_forward = true
 
@@ -279,40 +321,62 @@ resource "google_compute_instance_template" "instance_template" {
   lifecycle {
     create_before_destroy = true
   }
+  labels = {
+    git_commit           = "915311b51374d6d1f178237a0ce400fc3baa3967"
+    git_file             = "TF__tf12_gcp_all_issues__gcp_all_issues_tf"
+    git_last_modified_at = "2021-02-04-04-35-04"
+    git_last_modified_by = "ginguyen"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "instance_template"
+    yor_trace            = "06c6dc8f-2efc-434f-a601-44a789093ac2"
+  }
 }
 
 //GCP VPC Network subnets have Private Google access disabled
 //$.resource[*].google_compute_subnetwork[*].*[*].private_ip_google_access anyNull or $.resource[*].google_compute_subnetwork[*].*[*].private_ip_google_access anyFalse
 resource "google_compute_subnetwork" "network-with-private-secondary-ip-ranges" {
-  name = "test-subnetwork"
-  ip_cidr_range = "10.2.0.0/16"
-  region = "us-central1"
-  network = google_compute_network.custom-test.id
+  name                     = "test-subnetwork"
+  ip_cidr_range            = "10.2.0.0/16"
+  region                   = "us-central1"
+  network                  = google_compute_network.custom-test.id
   private_ip_google_access = false
   secondary_ip_range {
-    range_name = "tf-test-secondary-range-update1"
+    range_name    = "tf-test-secondary-range-update1"
     ip_cidr_range = "192.168.10.0/24"
   }
   private_ipv6_google_access = true
 }
 resource "google_compute_network" "custom-test" {
-  name = "test-network"
+  name                    = "test-network"
   auto_create_subnetworks = false
 }
 
 //GCP Kubernetes Engine Clusters using the default network
 //$.resource[*].google_project[*].*[*].auto_create_network anyTrue or  $.resource[*].google_project[*].*[*].auto_create_network anyNull
 resource "google_project" "my_project" {
-  name = "My Project"
-  project_id = "your-project-id"
-  org_id = "1234567"
+  name                = "My Project"
+  project_id          = "your-project-id"
+  org_id              = "1234567"
   auto_create_network = true
+  labels = {
+    git_commit           = "915311b51374d6d1f178237a0ce400fc3baa3967"
+    git_file             = "TF__tf12_gcp_all_issues__gcp_all_issues_tf"
+    git_last_modified_at = "2021-02-04-04-35-04"
+    git_last_modified_by = "ginguyen"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "my_project"
+    yor_trace            = "5ebad121-0868-4fba-aa40-94b1c8524317"
+  }
 }
 
 //GCP Projects have OS Login disabled
 //$.resource[*].google_compute_project_metadata_item.[*].[*].[*].key exists and $.resource[*].google_compute_project_metadata_item.[*].[*].[*].key == enable-oslogin and $.resource[*].google_compute_project_metadata_item.[*].[*].[*].value exists and $.resource[*].google_compute_project_metadata_item.[*].[*].[*].value == FALSE
 resource "google_compute_project_metadata_item" "default" {
-  key = "enable-oslogin"
+  key   = "enable-oslogin"
   value = "FALSE"
 }
 
@@ -340,14 +404,14 @@ data "google_iam_policy" "admin" {
   }
 }
 resource "google_project_iam_member" "sql_client" {
-    role = "roles/editor"
-    member = "serviceAccount:your-custom-sa@your-project.iam.gserviceaccount.com"
+  role   = "roles/editor"
+  member = "serviceAccount:your-custom-sa@your-project.iam.gserviceaccount.com"
 }
 resource "google_project_iam_member" "sql_client2" {
-    role = "roles/iam.serviceAccountUser"
-    member = "user:abc@gmail.com"
+  role   = "roles/iam.serviceAccountUser"
+  member = "user:abc@gmail.com"
 }
 resource "google_project_iam_member" "sql_client3" {
-    role = "roles/cloudkms.admin"
-    member = "user:abc@gmail.com"
+  role   = "roles/cloudkms.admin"
+  member = "user:abc@gmail.com"
 }

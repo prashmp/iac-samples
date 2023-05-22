@@ -16,6 +16,17 @@ resource "aws_iam_role" "replication" {
   ]
 }
 POLICY
+  tags = {
+    git_commit           = "aa075746561a263ca5d4f198d51055c97052e170"
+    git_file             = "TF/tf12_multiple-modules/examples/s3-replication/iam.tf"
+    git_last_modified_at = "2020-12-02 05:40:26"
+    git_last_modified_by = "ginguyen@paloaltonetworks.com"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "replication"
+    yor_trace            = "6bd3271b-fbe7-4443-a05b-e15a88702fa1"
+  }
 }
 
 resource "aws_iam_policy" "replication" {
@@ -56,6 +67,17 @@ resource "aws_iam_policy" "replication" {
   ]
 }
 POLICY
+  tags = {
+    git_commit           = "aa075746561a263ca5d4f198d51055c97052e170"
+    git_file             = "TF/tf12_multiple-modules/examples/s3-replication/iam.tf"
+    git_last_modified_at = "2020-12-02 05:40:26"
+    git_last_modified_by = "ginguyen@paloaltonetworks.com"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "replication"
+    yor_trace            = "7c5664b5-d878-479a-8bc6-d066c327c488"
+  }
 }
 
 resource "aws_iam_policy_attachment" "replication" {

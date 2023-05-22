@@ -9,6 +9,17 @@ resource "random_pet" "this" {
 resource "aws_kms_key" "objects" {
   description             = "KMS key is used to encrypt bucket objects"
   deletion_window_in_days = 7
+  tags = {
+    git_commit           = "aa075746561a263ca5d4f198d51055c97052e170"
+    git_file             = "TF/tf12_multiple-modules/examples/complete/main.tf"
+    git_last_modified_at = "2020-12-02 05:40:26"
+    git_last_modified_by = "ginguyen@paloaltonetworks.com"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "objects"
+    yor_trace            = "a07d9ba7-1b06-4f1c-a515-90b363e44687"
+  }
 }
 
 resource "aws_iam_role" "this" {
@@ -27,6 +38,17 @@ resource "aws_iam_role" "this" {
   ]
 }
 EOF
+  tags = {
+    git_commit           = "aa075746561a263ca5d4f198d51055c97052e170"
+    git_file             = "TF/tf12_multiple-modules/examples/complete/main.tf"
+    git_last_modified_at = "2020-12-02 05:40:26"
+    git_last_modified_by = "ginguyen@paloaltonetworks.com"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "this"
+    yor_trace            = "7196e2a1-f69e-40ce-b79f-01542cecdb18"
+  }
 }
 
 data "aws_iam_policy_document" "bucket_policy" {
@@ -66,7 +88,16 @@ module "s3_bucket" {
   policy        = data.aws_iam_policy_document.bucket_policy.json
 
   tags = {
-    Owner = "Anton"
+    Owner                = "Anton"
+    git_commit           = "aa075746561a263ca5d4f198d51055c97052e170"
+    git_file             = "TF/tf12_multiple-modules/examples/complete/main.tf"
+    git_last_modified_at = "2020-12-02 05:40:26"
+    git_last_modified_by = "ginguyen@paloaltonetworks.com"
+    git_modifiers        = "ginguyen"
+    git_org              = "prashmp"
+    git_repo             = "iac-samples"
+    yor_name             = "s3_bucket"
+    yor_trace            = "ccb45eca-a0e6-46bb-b642-6848ee5ae640"
   }
 
   versioning = {
