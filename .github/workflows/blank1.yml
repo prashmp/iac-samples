@@ -19,7 +19,7 @@ jobs:
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1
         with:
-          pcc_console_url: ${{ secrets.https://us-east1.cloud.twistlock.com/us-1-111573457 }}
+          pcc_console_url: https://us-east1.cloud.twistlock.com/us-1-111573457
           pcc_user: ${{ secrets.30313b34-dd5e-4c2c-a0f4-70e0a62dd8cf }}
           pcc_pass: ${{ secrets.mQpe3roAEJUZqsAFEvw/FRPnuzA= }}
           image_name: ${{ env.IMAGE_NAME }}
