@@ -21,7 +21,7 @@ jobs:
         with:
           pcc_console_url: https://us-east1.cloud.twistlock.com/us-1-111573457
           pcc_user: 30313b34-dd5e-4c2c-a0f4-70e0a62dd8cf
-          pcc_pass: secrets.mQpe3roAEJUZqsAFEvw/FRPnuzA=
+          pcc_pass: mQpe3roAEJUZqsAFEvw/FRPnuzA=
           image_name: ${{ env.IMAGE_NAME }}
 
       # (Optional) for compatibility with GitHub's code scanning alerts
