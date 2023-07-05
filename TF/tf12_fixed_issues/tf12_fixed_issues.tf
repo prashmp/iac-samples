@@ -26,5 +26,6 @@ resource "aws_s3_bucket" "foo" {
     git_repo             = "iac-samples"
     yor_name             = "foo"
     yor_trace            = "d632322b-3f8a-42f7-899c-7bd23ebfcbc7"
+    Demo                 = "gir_repo"
   }
 }

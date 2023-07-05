@@ -60,6 +60,7 @@ resource "aws_network_interface" "rvt" {
     git_repo             = "iac-samples"
     yor_name             = "rvt"
     yor_trace            = "00d49bd7-b714-4deb-a3a7-59b6fc05040b"
+    Demo                 = "gir_repo"
   }
 }
 
@@ -78,6 +79,7 @@ resource "aws_instance" "rvt" {
     git_repo             = "iac-samples"
     yor_name             = "rvt"
     yor_trace            = "e4d566bc-f912-40d0-9a48-b65c9081f90c"
+    Demo                 = "gir_repo"
   }
 
   network_interface {

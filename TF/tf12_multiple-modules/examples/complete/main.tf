@@ -19,6 +19,7 @@ resource "aws_kms_key" "objects" {
     git_repo             = "iac-samples"
     yor_name             = "objects"
     yor_trace            = "a07d9ba7-1b06-4f1c-a515-90b363e44687"
+    Demo                 = "gir_repo"
   }
 }
 
@@ -48,6 +49,7 @@ EOF
     git_repo             = "iac-samples"
     yor_name             = "this"
     yor_trace            = "7196e2a1-f69e-40ce-b79f-01542cecdb18"
+    Demo                 = "gir_repo"
   }
 }
 
