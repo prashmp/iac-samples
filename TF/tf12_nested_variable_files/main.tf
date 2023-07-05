@@ -19,6 +19,7 @@ resource "aws_vpc" "my_vpc" {
     git_repo             = "iac-samples"
     yor_name             = "my_vpc"
     yor_trace            = "11bc8a43-5b28-4b26-a087-7a88a9854ff6"
+    Demo                 = "gir_repo"
   }
 }
 
@@ -39,6 +40,7 @@ resource "aws_s3_bucket" "publics3" {
     git_repo             = "iac-samples"
     yor_name             = "publics3"
     yor_trace            = "2ce794e0-05ff-4343-b309-16a52f963619"
+    Demo                 = "gir_repo"
   }
 }
 
@@ -65,6 +67,7 @@ resource "aws_security_group" "allow_tcp" {
     git_repo             = "iac-samples"
     yor_name             = "allow_tcp"
     yor_trace            = "f5e20280-d22a-4c88-97e5-78d1d04808f7"
+    Demo                 = "gir_repo"
   }
 }
 
@@ -83,6 +86,7 @@ resource "aws_subnet" "my_subnet" {
     git_repo             = "iac-samples"
     yor_name             = "my_subnet"
     yor_trace            = "4714f301-23f5-4ba5-a8e4-113d8ce8a580"
+    Demo                 = "gir_repo"
   }
 }
 
@@ -103,6 +107,7 @@ resource "aws_instance" "ubuntu" {
     git_repo             = "iac-samples"
     yor_name             = "ubuntu"
     yor_trace            = "f1ab49da-97f8-4a26-80fb-80ca3f207b63"
+    Demo                 = "gir_repo"
   }
 }
 
