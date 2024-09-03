@@ -14,6 +14,8 @@ resource "aws_s3_bucket" "this" {
     git_repo             = "iac-samples"
     yor_name             = "this"
     yor_trace            = "a251c63e-ee33-4c92-89cb-731d7fcb376e"
+    }, {
+    Env = "prod"
   })
   force_destroy       = var.force_destroy
   acceleration_status = var.acceleration_status

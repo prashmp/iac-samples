@@ -26,6 +26,7 @@ POLICY
     git_repo             = "iac-samples"
     yor_name             = "replication"
     yor_trace            = "6bd3271b-fbe7-4443-a05b-e15a88702fa1"
+    Env                  = "prod"
   }
 }
 
@@ -77,6 +78,7 @@ POLICY
     git_repo             = "iac-samples"
     yor_name             = "replication"
     yor_trace            = "7c5664b5-d878-479a-8bc6-d066c327c488"
+    Env                  = "prod"
   }
 }
 
