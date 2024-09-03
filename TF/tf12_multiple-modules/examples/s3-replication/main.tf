@@ -36,6 +36,7 @@ resource "aws_kms_key" "replica" {
     git_repo             = "iac-samples"
     yor_name             = "replica"
     yor_trace            = "a66ea938-297e-4315-b3f2-31acbe53f170"
+    Env                  = "prod"
   }
 }
 
