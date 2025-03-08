@@ -39,7 +39,7 @@ resource "aws_s3_bucket" "foo" {
   // 24. AWS S3 Object Versioning is disabled (medium)
   // $.resource[*].aws_s3_bucket exists and ($.resource[*].aws_s3_bucket.*[*].*.versioning[*].enabled does not exist or $.resource[*].aws_s3_bucket.*[*].*.versioning[*].enabled anyFalse)
   versioning {
-    enabled = false
+    enabled = true
   }
   // 1. AWS S3 CloudTrail buckets for which access logging is disabled ()
   // $.resource[*].aws_cloudtrail[*].*[*].enable_logging anyFalse
