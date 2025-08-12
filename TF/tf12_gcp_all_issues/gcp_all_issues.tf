@@ -225,6 +225,9 @@ resource "google_compute_instance" "apps" {
     yor_name             = "apps"
     yor_trace            = "e9178f0e-003b-4be0-b5de-250349e99778"
   }
+  metadata = {
+    block-project-ssh-keys = true
+  }
 }
 
 resource "random_id" "db_name_suffix" {
