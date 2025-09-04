@@ -144,6 +144,7 @@ resource "google_storage_bucket" "static-site" {
     git_repo             = "iac-samples"
     yor_name             = "static-site"
     yor_trace            = "81dafef5-882f-4c38-9f42-2b2be29a50e5"
+    Env                  = "prod"
   }
 }
 
@@ -173,6 +174,7 @@ resource "google_storage_bucket" "bucket" {
     git_repo             = "iac-samples"
     yor_name             = "bucket"
     yor_trace            = "a2e12179-c5b4-481c-958b-761757fc4e94"
+    Env                  = "prod"
   }
 }
 
@@ -224,6 +226,7 @@ resource "google_compute_instance" "apps" {
     git_repo             = "iac-samples"
     yor_name             = "apps"
     yor_trace            = "e9178f0e-003b-4be0-b5de-250349e99778"
+    Env                  = "prod"
   }
 }
 
@@ -295,6 +298,7 @@ resource "google_compute_disk" "default" {
     git_repo             = "iac-samples"
     yor_name             = "default"
     yor_trace            = "e1955671-182b-48b9-bbae-bcafd10397e3"
+    Env                  = "prod"
   }
   physical_block_size_bytes = 4096
 }
@@ -331,6 +335,7 @@ resource "google_compute_instance_template" "instance_template" {
     git_repo             = "iac-samples"
     yor_name             = "instance_template"
     yor_trace            = "06c6dc8f-2efc-434f-a601-44a789093ac2"
+    Env                  = "prod"
   }
 }
 
@@ -370,6 +375,7 @@ resource "google_project" "my_project" {
     git_repo             = "iac-samples"
     yor_name             = "my_project"
     yor_trace            = "5ebad121-0868-4fba-aa40-94b1c8524317"
+    Env                  = "prod"
   }
 }
 
