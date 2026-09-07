@@ -15,6 +15,7 @@ resource "aws_vpc" "my_vpc" {
     git_repo             = "iac-samples"
     yor_name             = "my_vpc"
     yor_trace            = "e88ae089-f513-4b3e-8af2-5e449623fafc"
+    Env                  = "prod"
   }
 }
 
@@ -33,5 +34,6 @@ resource "aws_subnet" "my_subnet" {
     git_repo             = "iac-samples"
     yor_name             = "my_subnet"
     yor_trace            = "641e8c43-84ab-4921-9105-a9935ecd41f9"
+    Env                  = "prod"
   }
 }

@@ -19,6 +19,7 @@ resource "aws_s3_bucket" "log_bucket" {
     git_repo             = "iac-samples"
     yor_name             = "log_bucket"
     yor_trace            = "e630fae1-ca02-4a87-ab6d-e5efe6b47a30"
+    Env                  = "prod"
   }
 }
 
@@ -59,6 +60,7 @@ resource "aws_s3_bucket" "foo" {
     git_repo             = "iac-samples"
     yor_name             = "foo"
     yor_trace            = "6b1a8884-7fe1-432e-91b5-c27949cd01fe"
+    Env                  = "prod"
   }
 }
 
@@ -83,6 +85,7 @@ resource "aws_cloudtrail" "foo_cloudtrail" {
     git_repo             = "iac-samples"
     yor_name             = "foo_cloudtrail"
     yor_trace            = "fc70e527-1152-425b-a1e1-f1b32626db97"
+    Env                  = "prod"
   }
 }
 resource "aws_s3_bucket_public_access_block" "example" {
@@ -108,6 +111,7 @@ resource "aws_vpc_peering_connection" "foo" {
     git_repo             = "iac-samples"
     yor_name             = "foo"
     yor_trace            = "33d8b420-43ff-4d99-ac10-52a805ce7232"
+    Env                  = "prod"
   }
 }
 resource "aws_vpc" "foo_vpc" {
@@ -123,6 +127,7 @@ resource "aws_vpc" "foo_vpc" {
     git_repo             = "iac-samples"
     yor_name             = "foo_vpc"
     yor_trace            = "5438176a-efca-4440-80d0-331e5e11ca00"
+    Env                  = "prod"
   }
 }
 resource "aws_vpc" "bar_vpc" {
@@ -138,6 +143,7 @@ resource "aws_vpc" "bar_vpc" {
     git_repo             = "iac-samples"
     yor_name             = "bar_vpc"
     yor_trace            = "581938f1-7b3f-4efa-9aa8-e9e76073b7cf"
+    Env                  = "prod"
   }
 }
 
@@ -174,6 +180,7 @@ resource "aws_security_group" "allow_tcp" {
     git_repo             = "iac-samples"
     yor_name             = "allow_tcp"
     yor_trace            = "c6963b69-33af-40aa-9b9b-930198b3f109"
+    Env                  = "prod"
   }
 }
 // 25. AWS Security Groups allow internet traffic from internet to RDP port (3389)
@@ -207,6 +214,7 @@ resource "aws_security_group" "allow_rdp" {
     git_repo             = "iac-samples"
     yor_name             = "allow_rdp"
     yor_trace            = "97f48fea-f518-484c-9082-4d52946f52d6"
+    Env                  = "prod"
   }
 }
 // 27. AWS Security Groups with Inbound rule overly permissive to All Traffic
@@ -240,6 +248,7 @@ resource "aws_security_group" "allow_all_traffic" {
     git_repo             = "iac-samples"
     yor_name             = "allow_all_traffic"
     yor_trace            = "2623de1d-665e-4710-8df5-0a97551a3a58"
+    Env                  = "prod"
   }
 }
 // ??? [Not Matching, Dupe of 6?] 32. AWS security groups allow ingress traffic from blocked ports
@@ -266,6 +275,7 @@ resource "aws_security_group" "allow_udp69" {
     git_repo             = "iac-samples"
     yor_name             = "allow_udp69"
     yor_trace            = "74151e89-6393-4707-8a2d-44d77fe2855a"
+    Env                  = "prod"
   }
 }
 
@@ -301,6 +311,7 @@ resource "aws_network_acl" "main" {
     git_repo             = "iac-samples"
     yor_name             = "main"
     yor_trace            = "ab4d97ad-8a65-4e2f-b5b8-eb753d7641d4"
+    Env                  = "prod"
   }
 }
 // 21. AWS Redshift does not have require_ssl configured
@@ -322,6 +333,7 @@ resource "aws_redshift_parameter_group" "bar" {
     git_repo             = "iac-samples"
     yor_name             = "bar"
     yor_trace            = "063d609b-aa6b-4e56-8ac8-b0af8f2c4e3e"
+    Env                  = "prod"
   }
 }
 
@@ -349,6 +361,7 @@ resource "aws_db_instance" "default" {
     git_repo             = "iac-samples"
     yor_name             = "default"
     yor_trace            = "9a9ef9dc-b339-4a8a-96a7-86756c491c8c"
+    Env                  = "prod"
   }
 }
 // 19. AWS RDS event subscription disabled for DB security groups (medium)
@@ -365,6 +378,7 @@ resource "aws_sns_topic" "default" {
     git_repo             = "iac-samples"
     yor_name             = "default"
     yor_trace            = "e9a4b7f5-f882-4dd6-9e56-7fc1d75eee44"
+    Env                  = "prod"
   }
 }
 resource "aws_db_event_subscription" "default" {
@@ -396,6 +410,7 @@ resource "aws_db_event_subscription" "default" {
     git_repo             = "iac-samples"
     yor_name             = "default"
     yor_trace            = "864db9b2-9f7d-458e-ae2f-d5db1b869395"
+    Env                  = "prod"
   }
 }
 
@@ -414,6 +429,7 @@ resource "aws_kms_key" "a" {
     git_repo             = "iac-samples"
     yor_name             = "a"
     yor_trace            = "4a927539-db58-4639-be00-e1f709bee22f"
+    Env                  = "prod"
   }
 }
 
@@ -431,6 +447,7 @@ resource "aws_vpc" "mainvpc" {
     git_repo             = "iac-samples"
     yor_name             = "mainvpc"
     yor_trace            = "989eebeb-13d5-4736-8720-16f52f56a2d0"
+    Env                  = "prod"
   }
 }
 resource "aws_default_security_group" "default" {
@@ -454,6 +471,7 @@ resource "aws_default_security_group" "default" {
     git_repo             = "iac-samples"
     yor_name             = "default"
     yor_trace            = "13a18e0b-b0af-4454-b92e-242721faf9ca"
+    Env                  = "prod"
   }
 }
 
@@ -496,6 +514,7 @@ resource "aws_ecs_task_definition" "github-backup" {
     git_repo             = "iac-samples"
     yor_name             = "github-backup"
     yor_trace            = "c49226be-8b88-4344-8a64-facbc4c20704"
+    Env                  = "prod"
   }
 }
 resource "aws_ecs_task_definition" "github-backup2" {
@@ -533,6 +552,7 @@ resource "aws_ecs_task_definition" "github-backup2" {
     git_repo             = "iac-samples"
     yor_name             = "github-backup2"
     yor_trace            = "5bb65665-30db-4e87-b429-57273b461ff1"
+    Env                  = "prod"
   }
 }
 
@@ -566,6 +586,7 @@ resource "aws_elasticsearch_domain" "example" {
     git_repo             = "iac-samples"
     yor_name             = "example"
     yor_trace            = "a029806e-aade-47d3-9135-367d453a7442"
+    Env                  = "prod"
   }
 }
 
@@ -627,5 +648,6 @@ resource "aws_eks_cluster" "example" {
     git_repo             = "iac-samples"
     yor_name             = "example"
     yor_trace            = "aa6e0980-65bf-49f6-b1f2-8e881523260f"
+    Env                  = "prod"
   }
 }
